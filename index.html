@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="js cookies svg placeholder no-touchevents mediaqueries borderradius boxshadow" style="" lang="es"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Cuestionario - Cuestionario sobre Costes Sup.</title>
+ <meta charset="utf-8">
+ <!--[if (lt IE 9) | (IEMobile)]><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><![endif]-->
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="author" content="Servicio de Informática Hospital La Fe">
+ <!--[if IE]><link rel="shortcut icon" href="/paciente/favicon.ico" type="image/x-icon" /><![endif]-->
+ <link rel="apple-touch-icon" href="https://videoconsultapre.lafe.es/paciente/apple-touch-icon.png">
+ <link rel="icon" href="https://videoconsultapre.lafe.es/paciente/favicon.png">
+ <link rel="stylesheet" type="text/css" href="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/lafe.min.css">
+ <script src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/lafe.min.js"></script>
+<script src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/modernizr.js"></script>
+<script>
+ window.onload = function(e) {
+  setOnSubmitTodosForms();
+
+  if (typeof alCargarEstaPagina === "function") {
+    alCargarEstaPagina(e);
+  }
+
+ }
+
+ function onClickDoc(e) {
+  if (! e) var e = window.event;
+
+  var seguir = true;
+  if (typeof alHacerClicEnEstaPagina === "function") {
+    seguir = alHacerClicEnEstaPagina(e);
+   }
+
+  var el;
+  var elEvt = e.target || e.srcElement;
+  if (seguir) {
+   if ( (isInputSubmit(elEvt)) || (isInputSubmit(el = onClickFila(e))) ) {
+     onClickInputSubmit(e, el);
+   }
+   else if (isAButton(elEvt)) {
+    onClickAButton(e);
+   }
+  }
+
+ }
+
+ document.onclick = onClickDoc;
+ </script><style>
+@media (min-width: 681px) {
+#s0 div.campo-etiqueta-corta > label, #s0 div.campo-etiqueta-corta > span.label {
+ width: 25rem;
+}
+#s0 div.campo-etiqueta-corta .campo-ayuda, #s0 div.campo-etiqueta-corta samp.campo-solo-lectura-valor {
+ margin-left: 25rem;
+}
+ul label {
+ width: auto; }
+}</style>
+ <script>
+var ligaduras = { };
+
+function gl(cv) {
+ var ret = ligaduras[cv];
+ if (! ret) {
+  ret = [];
+  ligaduras[cv] = ret;
+ }
+ return ret;
+}
+gl("118@1").push("cc119");
+gl("118@2").push("!cc119");
+gl("120@1").push("cc121");
+gl("120@2").push("cc145");
+gl("122@1").push("cc149");
+gl("122@2").push("cc150");
+gl("154@4").push("cc155");
+gl("164@1").push("cc163");
+gl("164@2").push("!cc163");
+gl("163@1").push("cc165");
+gl("163@2").push("!cc165");
+gl("163@1").push("cc168");
+gl("163@2").push("!cc168");
+gl("163@1").push("cc169");
+gl("163@2").push("!cc169");
+gl("169@1").push("cc170");
+gl("169@2").push("cc171");
+gl("163@1").push("cc175");
+gl("163@2").push("!cc175");
+gl("175@1").push("cc207");
+gl("175@2").push("cc208");
+gl("177@1").push("cc178");
+gl("177@2").push("!cc178");
+gl("177@1").push("cc179");
+gl("177@2").push("!cc179");
+gl("177@1").push("cc182");
+gl("177@2").push("!cc182");
+gl("177@1").push("cc180");
+gl("177@2").push("!cc180");
+gl("194@1").push("cc195");
+gl("194@2").push("cc196");
+gl("199@1").push("cc200");
+gl("199@2").push("cc201");
+
+
+function alCargarEstaPagina(e) {
+
+ var elSels = document.getElementsByTagName("SELECT");
+ if (elSels) {
+
+  var elSel;
+  for (var i = 0; (i < elSels.length); i++) {
+   elSel = elSels[i];
+   var att = elSel.getAttribute("data-lafe-campo-ligado");
+
+   if ( (att) && (att === "1") ) {
+
+    elSel.onchange = onClicSelectLigado;
+   } 
+  }
+ }
+}
+
+function onClicSelectLigado(e) {
+
+  var el = e.target || e.srcElement;
+  var elOption = (el) ? el.options[el.selectedIndex] : null;
+  alHacerClicEnEstaPagina(null, elOption);
+
+  return false;
+ }
+
+function alHacerClicEnEstaPagina(e, d) {
+ var el = (e) ? e.target || e.srcElement : d;
+
+ if (
+   (el) && (! el.disabled)
+   && (el.tagName)
+   && ( ( (el.tagName === "INPUT") && ( (el.type === "radio") || (el.type === "checkbox") ) )
+        || (el.tagName === "OPTION") ) 
+   ) {
+  var valorId = el.getAttribute("data-valor-id");
+  var name;
+  if (valorId) {
+    name = el.getAttribute("name");
+    if ( (! name) && (el.parentNode) ) {
+      name = el.parentNode.getAttribute("name");
+    }
+  }
+
+  if ( (valorId) && (name) ) {
+   var lig = name + "@" + valorId;
+   var ccs = ligaduras[lig];
+   if ( (ccs) && (ccs.length) ) {
+     for (var i = 0; (i < ccs.length); i++) {
+       var cc = ccs[i];
+
+       mostrarUOcultarLigado(el, cc);
+     }
+   }
+  }
+ }
+
+ return true;
+}
+
+function mostrarUOcultarLigado(elClicado, idContenedorLigado) {
+ var mostrar;
+ if ( (elClicado.type) && (elClicado.type === "checkbox") ) {
+  mostrar = elClicado.checked;
+ }
+ else {
+  var accion = idContenedorLigado.slice(0, 1);
+  if (accion === "!") {
+   mostrar = false;
+   idContenedorLigado = idContenedorLigado.slice(1);
+  }
+  else {
+   mostrar = true;
+  }
+ }
+
+ var elContenedorLigado = document.getElementById(idContenedorLigado);
+ if (elContenedorLigado) {
+  var reOculto = / ?campo-ligado-oculto/;
+  var clase = (elContenedorLigado.className) ? elContenedorLigado.className : "";
+  var tieneClaseOculto = reOculto.test(clase);
+
+  if ( (mostrar) && (tieneClaseOculto) ) {
+   elContenedorLigado.className = clase.replace(reOculto, "");
+
+  }
+  else if ( (! mostrar) && (! tieneClaseOculto) ) {
+   elContenedorLigado.className = clase + " campo-ligado-oculto";
+
+  }
+ }
+}
+ </script>
+<script src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/prompt.js"></script></head>
+<body class="cuestionario">
+<div id="cabecera-barra-idiomas"><ul><li><a href="https://videoconsultapre.lafe.es/paciente/cuestionario/unmc9isQQ26_4cM8w_j_eTrCFinKjq?idioma=va" lang="ca">_Valencià</a></li><li><a href="https://videoconsultapre.lafe.es/paciente/cuestionario/unmc9isQQ26_4cM8w_j_eTrCFinKjq?idioma=es" lang="es">_Castellano</a></li></ul></div>
+<div id="cabecera-logos">
+ <a href="http://www.hospital-lafe.com/" rel="external"><img alt="logo-departamento" class="logo-lafe v" src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/logo-lafe-vb.svg"><img alt="" class="logo-lafe bm" src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/logo-lafe-vb.png"></a>
+ <img class="imagen-central" src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/lafe-banner.png" alt=""><div class="banner">Entorno PRE</div><img alt="" class="logo-sanitat" src="Cuestionario%20-%20Cuestionario%20sobre%20Costes%20Sup_files/logo-gva-san-vb.png"><span class="enlace-gva"><a href="http://www.gva.es/" rel="noreferrer external" class="inverso">www.gva.es</a></span>
+</div>
+<div id="cabecera-barra-separacion">
+ | 
+SIP: *****667</div>
+<div id="cuestionario" class="contenido">
+
+<div role="status" class="mensajes">
+<ul>
+<li class="li-warn">La fecha tope para rellenar este cuestionario es el <strong><time datetime="2022-12-28">28-diciembre-2022 23:59</time></strong>.</li>
+</ul>
+</div><div class="preambulo">
+   <p>Este cuestionario forma parte del Proyecto del Pasaporte del 
+Superviviente, desarrollado por el Hospital Universitari i Politècnic La
+ Fe y el Instituto de Investiagación Sanitaria La Fe.</p>
+<p>Estimado participante, a continuación encontrará una lista de 
+afirmaciones diseñadas para evaluar su estado de ánimo tras la entrega 
+del <a target="_blank" href="https://www.pancaresurpass.eu/">SurPass.</a></p> 
+<p>Por favor, indique en qué medida está de acuerdo con cada afirmación,
+ haciendo clic en el nivel que sea más acertado en su caso. No hay 
+respuestas correctas o incorrectas; si no quiere responder a la 
+afirmación, pulse en <strong>No sabe/No contesta</strong></p></div>
+ <h2>Cuestionario sobre Costes Sup.</h2>
+ <form method="POST" autocomplete="off" accept-charset="utf-8"><fieldset id="s0">
+<legend>Cuestionario sobre Costes</legend>
+<div id="cc117" class="campo campo-primero campo-rbocb">
+<span class="label">Soy:</span> <div class="campo-ayuda">Calcule el tiempo total de viaje más el tiempo en la clínica</div><ul id="c117"><li><label><input type="radio" name="117" value="0" data-valor-id="1">Superviviente</label></li>
+<li><label><input type="radio" name="117" value="1" data-valor-id="2">Cuidador (padre, tutor, otro familiar o amigo)</label></li>
+</ul>
+</div>
+<div id="cc118" class="campo campo-rbocb">
+<span class="label">¿Acudió a la visita de seguimiento con su cuidador, familiar o amigo?:</span> <ul id="c118"><li><label><input type="radio" name="118" value="0" data-valor-id="1">Sí</label></li>
+<li><label><input type="radio" name="118" value="1" data-valor-id="2">No</label></li>
+</ul>
+</div>
+<div id="cc119" class="campo campo-ligado-oculto">
+<label for="c119">¿Cuántas personas asistieron a la visita de seguimiento?:</label> <input type="text" id="c119" name="119" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">Personas</span><div class="campo-ayuda">Incluyendote a ti mismo y a todos los acompañantes.</div>
+</div>
+<div id="cc120" class="campo campo-rbocb">
+<span class="label">¿Cuánto tiempo pasaron usted /y su(s) cuidadore(s) en  la visita de seguimiento?:</span> <div class="campo-ayuda">Indique el tiempo total pasado en la consulta</div><ul id="c120"><li><label><input type="checkbox" name="120" value="0" data-valor-id="1">Días</label></li>
+<li><label><input type="checkbox" name="120" value="1" data-valor-id="2">Horas</label></li>
+</ul>
+</div>
+<div id="cc121" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c121">Indique el número de días:</label> <input type="text" id="c121" name="121" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">días</span>
+</div>
+<div id="cc145" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c145">Indique el número de horas:</label> <input type="text" id="c145" name="145" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+<div id="cc122" class="campo campo-rbocb">
+<span class="label">¿Cuánto tiempo supuso el viaje de ida y vuelta a  a la visita de seguimiento?:</span> <div class="campo-ayuda">Indique sólo el tiempo de viaje, el tiempo en tota</div><ul id="c122"><li><label><input type="checkbox" name="122" value="0" data-valor-id="1">Días</label></li>
+<li><label><input type="checkbox" name="122" value="1" data-valor-id="2">Horas</label></li>
+</ul>
+</div>
+<div id="cc149" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c149">Indique el número de días:</label> <input type="text" id="c149" name="149" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">días</span>
+</div>
+<div id="cc150" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c150">Indique el número de horas:</label> <input type="text" id="c150" name="150" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+<div id="cc154" class="campo campo-rbocb">
+<span class="label">¿Qué medio(s) de transporte utilizaron usted/usted y su(s) cuidadore(s) para ir y volver?:</span> <div class="campo-ayuda">Indique todos los medios de transporte que utilizó para ir y volver a la consulta de seguimiento.</div><ul id="c154"><li><label><input type="checkbox" name="154" value="0" data-valor-id="1">Coche</label></li>
+<li><label><input type="checkbox" name="154" value="1" data-valor-id="2">Transporte público</label></li>
+<li><label><input type="checkbox" name="154" value="2" data-valor-id="3">Bicicleta / a pie</label></li>
+<li><label><input type="checkbox" name="154" value="3" data-valor-id="4">Otro</label></li>
+</ul>
+</div>
+<div id="cc155" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c155">Especifique el medio de transporte:</label> <input type="text" id="c155" name="155">
+</div>
+<div id="cc158" class="campo">
+<label for="c158">¿Cuáles fueron los gastos del viaje de ida y vuelta a la visita de seguimiento ?:</label> <input type="text" id="c158" name="158" inputmode="decimal" placeholder="p.e. 1,23" maxlength="15"><span class="unidad" title="Unidad de medida">Euros</span><div class="campo-ayuda">Gastos de desplazamiento</div>
+</div>
+<div id="cc164" class="campo campo-rbocb">
+<span class="label">¿Tuvo usted alguna cita programada para después de la visita de seguimiento?:</span> <div class="campo-ayuda">Por cita nos referimos a alguna cita programada que estuviera relacionada con su seguimiento.</div><ul id="c164"><li><label><input type="radio" name="164" value="0" data-valor-id="1">Sí</label></li>
+<li><label><input type="radio" name="164" value="1" data-valor-id="2">No</label></li>
+</ul>
+</div>
+<div id="cc163" class="campo campo-rbocb campo-ligado-oculto">
+<span class="label">¿Acudió usted a alguna cita después de la visita de seguimiento con su cuidador, familiar o amigo?:</span> <div class="campo-ayuda">Por cita nos referimos a cita programada.</div><ul id="c163"><li><label><input type="radio" name="163" value="0" data-valor-id="1">Sí</label></li>
+<li><label><input type="radio" name="163" value="1" data-valor-id="2">No</label></li>
+</ul>
+</div>
+<div id="cc165" class="campo campo-ligado-oculto">
+<label for="c165">Por favor, indique cuántas citas tuvo después de la visita de seguimiento:</label> <input type="text" id="c165" name="165" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">Citas</span>
+</div>
+<div id="cc168" class="campo campo-ligado-oculto">
+<label for="c168">¿Cuántas personas acudieron a las citas después de la visita de seguimiento?:</label> <input type="text" id="c168" name="168" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">Personas</span>
+</div>
+<div id="cc169" class="campo campo-rbocb campo-ligado-oculto">
+<span class="label">¿Cuánto tiempo dedicó usted/ usted y su cuidador en las citas después de la visita de seguimiento?:</span> <div class="campo-ayuda">Por favor indique sólo el tiempo de las citas,  el tiempo de todas las citas en total.</div><ul id="c169"><li><label><input type="checkbox" name="169" value="0" data-valor-id="1">Días</label></li>
+<li><label><input type="checkbox" name="169" value="1" data-valor-id="2">Horas</label></li>
+</ul>
+</div>
+<div id="cc170" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c170">Indique el número de días:</label> <input type="text" id="c170" name="170" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">días</span>
+</div>
+<div id="cc171" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c171">Indique el número de horas:</label> <input type="text" id="c171" name="171" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+<div id="cc175" class="campo campo-rbocb campo-ligado-oculto">
+<span class="label">¿Cuánto tiempo tardó en el viaje de ida y vuelta a las citas posteriores a la visita de seguimiento?:</span> <div class="campo-ayuda">Por favor, indique sólo el tiempo de viaje, el tiempo de desplazamiento para todas las citas</div><ul id="c175"><li><label><input type="checkbox" name="175" value="0" data-valor-id="1">Horas</label></li>
+<li><label><input type="checkbox" name="175" value="1" data-valor-id="2">Minutos</label></li>
+</ul>
+</div>
+<div id="cc207" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c207">Horas usadas para el desplazamiento:</label> <input type="text" id="c207" name="207" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+<div id="cc208" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c208">Minutos usados para el desplazamiento:</label> <input type="text" id="c208" name="208" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">minutos</span>
+</div>
+<div id="cc177" class="campo campo-rbocb">
+<span class="label">¿Tuvo usted algún gasto extra relacionado con el seguimiento?:</span> <div class="campo-ayuda">La visita de seguimiento y/o las posteriores a la misma, ej; para comida, alojamiento o aparcamiento</div><ul id="c177"><li><label><input type="radio" name="177" value="0" data-valor-id="1">Sí</label></li>
+<li><label><input type="radio" name="177" value="1" data-valor-id="2">No</label></li>
+</ul>
+</div>
+<div id="cc178" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c178">Gastos alimentación:</label> <input type="text" id="c178" name="178" inputmode="decimal" placeholder="p.e. 1,23" maxlength="15"><span class="unidad" title="Unidad de medida">Euros</span>
+<label for="c179">Gastos aparcamiento:</label> <input type="text" id="c179" name="179" inputmode="decimal" placeholder="p.e. 1,23" maxlength="15"><span class="unidad" title="Unidad de medida">Euros</span>
+<label for="c182">Gastos alojamiento:</label> <input type="text" id="c182" name="182" inputmode="decimal" placeholder="p.e. 1,23" maxlength="15"><span class="unidad" title="Unidad de medida">Euros</span>
+</div>
+<div id="cc180" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c180">Otros:</label> <input type="text" id="c180" name="180" maxlength="35"><div class="campo-ayuda">Escriba el tipo de gasto extra a incluir</div>
+<label for="c181">Gastos otros:</label> <input type="text" id="c181" name="181" inputmode="decimal" placeholder="p.e. 1,23" maxlength="15"><span class="unidad" title="Unidad de medida">Euros</span><div class="campo-ayuda">Introduzca el valor de los otros gastos</div>
+</div>
+<div id="cc189" class="campo campo-rbocb">
+<span class="label">¿Cómo se organizó para ausentarse del trabajo para las visitas a la clínica?:</span> <div class="campo-ayuda">A la visita de seguimiento y las citas posteriores a la misma si las hubo.</div><ul id="c189"><li><label><input type="radio" name="189" value="0" data-valor-id="1">Usando un permiso sin sueldo</label></li>
+<li><label><input type="radio" name="189" value="1" data-valor-id="2">Usando un permiso remunerado</label></li>
+<li><label><input type="radio" name="189" value="2" data-valor-id="3">En mi tiempo libre</label></li>
+<li><label><input type="radio" name="189" value="3" data-valor-id="4">No tengo trabajo</label></li>
+</ul>
+</div>
+<div id="cc194" class="campo campo-rbocb">
+<span class="label">¿Cuánto tiempo se ha ausentado del trabajo/educación para acudir al seguimiento?:</span> <div class="campo-ayuda">La visita de seguimiento y/o citas posterioresa la misma</div><ul id="c194"><li><label><input type="checkbox" name="194" value="0" data-valor-id="1">Días</label></li>
+<li><label><input type="checkbox" name="194" value="1" data-valor-id="2">Horas</label></li>
+</ul>
+</div>
+<div id="cc195" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c195">Días ausencia:</label> <input type="text" id="c195" name="195" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">días</span>
+</div>
+<div id="cc196" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c196">Horas ausencia:</label> <input type="text" id="c196" name="196" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+<div id="cc198" class="campo campo-rbocb">
+<span class="label">¿Cómo hizo su cuidador para ausentarse del trabajo/escuela para completar el seguimiento?:</span> <div class="campo-ayuda">A la visita de seguimiento y las citas posteriores a la misma si las hubo.</div><ul id="c198"><li><label><input type="radio" name="198" value="0" data-valor-id="1">Usando un permiso sin sueldo</label></li>
+<li><label><input type="radio" name="198" value="1" data-valor-id="2">Usando un permiso remunerado</label></li>
+<li><label><input type="radio" name="198" value="2" data-valor-id="3">Usando el tiempo libre</label></li>
+<li><label><input type="radio" name="198" value="3" data-valor-id="4">No tiene trabajo</label></li>
+<li><label><input type="radio" name="198" value="4" data-valor-id="5">Es estudiante, se ausentó de la escuela.</label></li>
+</ul>
+</div>
+<div id="cc199" class="campo campo-rbocb">
+<span class="label">¿Cuánto tiempo se ha ausentado su cuidador del trabajo/educación para acudir al seguimiento?:</span> <div class="campo-ayuda">La visita de seguimiento y/o citas posterioresa la misma</div><ul id="c199"><li><label><input type="checkbox" name="199" value="0" data-valor-id="1">Días</label></li>
+<li><label><input type="checkbox" name="199" value="1" data-valor-id="2">Horas</label></li>
+</ul>
+</div>
+<div id="cc200" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c200">Días ausencia cuidador:</label> <input type="text" id="c200" name="200" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">días</span>
+</div>
+<div id="cc201" class="campo campo-etiqueta-corta campo-ligado-oculto">
+<label for="c201">Horas ausencia cuidador:</label> <input type="text" id="c201" name="201" inputmode="numeric" placeholder="p.e. 123" maxlength="15"><span class="unidad" title="Unidad de medida">horas</span>
+</div>
+</fieldset>
+<div class="acciones">
+<input type="submit" name="b" value="Enviar respuestas">
+</div>
+</form></div>
+<hr>
+<div id="pie">
+<div>© 2018 Generalitat Valenciana</div>
+<div>Conselleria de Sanitat Universal i Salut Pública</div>
+<div>Departament de Salut València La Fe</div>
+<div>
+<a href="https://videoconsultapre.lafe.es/paciente/mapa-web" rel="help">Mapa Web</a> | <a href="https://videoconsultapre.lafe.es/paciente/aviso-legal" rel="license">Aviso Legal</a> | <a href="https://videoconsultapre.lafe.es/paciente/politica-cookies" rel="license">Política <em>cookies</em></a> | <a href="https://videoconsultapre.lafe.es/paciente/preguntas-frecuentes" rel="help">Ayuda</a></div>
+</div>
+<!--[if (lt IE 9) | (IEMobile)]> <script src="/paciente/st/js/rem.min.js?1.0.6" type="text/javascript"></script> <![endif]-->
+
+
+</body></html>
